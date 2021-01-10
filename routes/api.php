@@ -29,3 +29,6 @@ Route::group([
     Route::post('refresh',  [AuthController::class, 'refresh']);
     Route::post('me',  [AuthController::class, 'me']);
 });
+
+
+Route::post('init', [\App\Http\Controllers\Api\CanvasEjudgeController::class, 'startIntegration']);
