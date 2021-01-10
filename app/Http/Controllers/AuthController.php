@@ -36,19 +36,30 @@ class AuthController extends Controller
      */
     public function registration()
     {
-        $name = request('name');
-        $email = request('email');
-        $password = request('password');
-        $canvasToken = request('canvas_token');
+    	$isRegistrationOpen = (boolean)config('services.app.registration_open');
 
-        $user = new User();
-        $user->name = $name;
-        $user->email = $email;
-        $user->canvas_token = $canvasToken;
-        $user->password = Hash::make($password);
-        $user->save();
+    	if ($isRegistrationOpen) 
+    	{
+    		$name = request('name');
+	        $email = request('email');
+	        $password = request('password');
+	        $canvasToken = request('canvas_token');
 
-        return response()->json(['message' => 'Successfully registration!']);
+	        $user = new User();
+	        $user->name = $name;
+	        $user->email = $email;
+	        $user->canvas_token = $canvasToken;
+	        $user->password = Hash::make($password);
+	        $user->save();
+
+	        return response()->json(['message' => 'Successfully registration!'], 201);
+    	}
+    	else 
+    	{
+    		return response()->json(['message' => 'Registration close'], 400);
+    	}
+
+        
     }
 
     /**

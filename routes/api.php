@@ -28,7 +28,12 @@ Route::group([
     Route::post('logout',  [AuthController::class, 'logout']);
     Route::post('refresh',  [AuthController::class, 'refresh']);
     Route::post('me',  [AuthController::class, 'me']);
+
+
 });
 
+Route::middleware(['auth:api'])->group(function() {
 
-Route::post('init', [\App\Http\Controllers\Api\CanvasEjudgeController::class, 'startIntegration']);
+    Route::post('init', [\App\Http\Controllers\Api\CanvasEjudgeController::class, 'startIntegration']);
+
+});

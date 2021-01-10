@@ -38,7 +38,9 @@ class CanvasEjudgeController extends Controller
 
                 try
                 {
-                    $canvasStudents = self::loadCanvasStudents($course);
+                	$canvasToken = auth()->user()->canvas_token;
+
+                    $canvasStudents = self::loadCanvasStudents($course, $canvasToken);
 
                     $errorPutArr = [];
 
@@ -65,7 +67,7 @@ class CanvasEjudgeController extends Controller
                             if ($total > 0)
                             {
                                 try {
-                                    self::setCanvasStudentsTotal($course, $canvasStudent["id"], $assign, $total);
+                                    self::setCanvasStudentsTotal($course, $canvasStudent["id"], $assign, $total, $canvasToken);
                                 }
                                 catch (\Exception $e)
                                 {                                                   // if unexpected query error
@@ -120,9 +122,9 @@ class CanvasEjudgeController extends Controller
      *
      * @return array
      */
-    private function loadCanvasStudents(int $courseId) {
+    private function loadCanvasStudents(int $courseId, string $canvas) {
 
-        $canvas = config('services.canvas.master_token');
+        // $canvas = config('services.canvas.master_token');
 
         $client = new Client();
         $url = 'https://canvas.letovo.ru/api/v1/courses/' . $courseId .'/students';
@@ -142,9 +144,9 @@ class CanvasEjudgeController extends Controller
      *
      * @return array
      */
-    private function setCanvasStudentsTotal(int $courseId, int $userId, int $assigmId, int $total) {
+    private function setCanvasStudentsTotal(int $courseId, int $userId, int $assigmId, int $total, string $canvas) {
 
-        $canvas = config('services.canvas.master_token');
+        // $canvas = config('services.canvas.master_token');
 
         $client = new Client();
         $url = 'https://canvas.letovo.ru/api/v1/courses/' . $courseId .'/assignments/'

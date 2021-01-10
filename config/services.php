@@ -34,4 +34,8 @@ return [
         'master_token' => env('CANVAS_TOKEN'),
     ],
 
+    'app' => [
+        'registration_open' => env('APP_REGISTRATION_OPEN'),
+    ],
+
 ];
